@@ -1,0 +1,103 @@
+.area {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.app_name {
+  /* position: absolute;
+  top: 160px; */
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.app_name h1 {
+  font-size: 26px;
+  letter-spacing: 2px;
+}
+
+.main {
+  display: flex;
+  flex-direction: row;
+  height: calc(100vh - 60px);
+}
+
+.info {
+  padding: 160px 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 60px;
+}
+
+.title {
+  font-size: 34px;
+  line-height: 44px;
+  letter-spacing: 2px;
+}
+
+.pig {
+  margin-top: 100px;
+  display: flex;
+  justify-content: center;
+}
+
+.form {
+  padding: 260px 140px;
+}
+
+.login {
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  padding: 40px;
+  border-radius: 20px;
+  gap: 40px;
+  width: 400px;
+  align-items: end;
+}
+
+.login_area {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}
+
+.login_input {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.login_input label {
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.login_input input {
+  font-size: 16px;
+  padding: 10px 12px;
+  border-radius: 4px;
+  border: 1px solid #E4E4E4;
+}
+
+
+.footer {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+}
+
+@media (max-width: 800px) {
+  .main {
+    flex-direction: column;
+  }
+}
