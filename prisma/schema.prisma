@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String      @id @default(uuid()) @unique
+  username        String   @unique
+  email           String   @unique
+
+  userValidUntil  String
+
+  messages        Messages[]
+  contacts        Contact[]
+  dispatchLogs    DispatchLogs[]
+  //collections     Collections[]
+}
+
+model Messages {
+  id        String       @id @default(uuid()) @unique
+  userId    String
+  descrip   String
+
+  user          User          @relation(fields:[userId], references:[id])
+  messageLogs   MessageLogs[]
+  dispatchLogs  DispatchLogs[]
+}
+
+model DispatchLogs {
+  id        String       @id @default(uuid()) @unique
+  userId    String
+  messageId String
+  contactId String
+  status    String
+
+  user         User         @relation(fields:[userId], references:[id])
+  message      Messages     @relation(fields:[messageId], references:[id])
+  contact      Contact      @relation(fields:[contactId], references:[id])
+}
+
+model MessageLogs {
+  id        String       @id @default(uuid()) @unique
+  messageId String
+  status    String
+  descrip   String
+
+  message   Messages     @relation(fields:[messageId], references: [id])
+}
+
+model Contact {
+  id            String       @id @default(uuid()) @unique
+  contactName   String
+  contactNumber Int          @unique
+  userId        String       @unique
+
+  user          User         @relation(fields:[userId], references: [id])
+  dispatchLogs  DispatchLogs[]
+}
+
+//model Collections {
+  
+//}
+
+//model collectionSchedule {
+  //id        String       @id @default(uuid()) @unique
+  //dateTime  String 
+  
+//}
