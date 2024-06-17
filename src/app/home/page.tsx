@@ -1,6 +1,26 @@
+"use client";
+import { FormEvent, useState } from "react";
 import styles from "./page.module.css";
+import { prisma } from "@/lib/prisma";
 
 export default function Home() {
+  const [ clientName, setClientname ] = useState("");
+  const [ valueToRequest, setValueToRequest ] = useState("");
+  const [ clientsPhone, setClientsPhone ] = useState("");
+  const [ messageToClient, setMessageToClient ] = useState(`Olá [cliente], \n\nEste contato é para lembrá-lo gentilmente sobre o pagamento pendente de [valor]. Por favor, tome um momento para providenciar o pagamento o mais breve possível. \n\nAgradecemos sua atenção e cooperação neste assunto. \n\nAtenciosamente, \n[Nome da empresa]`);
+
+  async function handleRegisterMessage(event: FormEvent) {
+    await prisma.messages.create({
+      data:{
+        descrip: messageToClient,
+        clientsPhone: clientsPhone,
+        clientsName: clientName,
+        clientsValue: valueToRequest,
+        userId: ''
+      }
+    })
+  }
+
   return (
     <main className={styles.main}>
       <div className={styles.container}>
@@ -58,10 +78,6 @@ export default function Home() {
               </tr>
              
             </table>
-
-
-
-
               {/* sem historico  */}
               
               {/* <svg width="250" height="202" viewBox="0 0 250 202" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -110,39 +126,52 @@ export default function Home() {
               Cobrar Cliente
             </h1>
             <div className={styles.form_card}>
-              <div className={styles.form_input}>
-                <label>Cliente</label>
-                <input placeholder="Nome do cliente" />
-              </div>
-              <div className={styles.form_input}>
-                <label>Valor a ser cobrado</label>
-                <input placeholder="Ex: 200" />
-              </div>
-              <div className={styles.form_input}>
-                <label>Telefone</label>
-                <input placeholder="(xx) xxxxx-xxxx" />
-              </div>
-              <div className={styles.form_input}>
-                <label>Nome da sua empresa</label>
-                <input placeholder="Empresa" />
-              </div>
-              <div className={styles.form_input}>
-                <label>Mensagem</label>
-                <textarea>
-                  Olá [cliente],
-                  Este contato é para lembrá-lo gentilmente sobre o pagamento pendente de [valor]. Por favor, tome um momento para providenciar o pagamento o mais breve possível.
-                  Agradecemos sua atenção e cooperação neste assunto.
-                  Atenciosamente,
-                  [Nome da empresa]
-                </textarea>
-              </div>
-              <div className={styles.form_footer}>
-                <button type="button" className="btn-primary">Enviar Cobrança</button>
-              </div>
+              <form onSubmit={handleRegisterMessage}>
+                <div className={styles.form_input}>
+                  <label>Cliente</label>
+                  <input 
+                    required
+                    placeholder="Nome do cliente"
+                    value={clientName}
+                    onChange={e=>setClientname(e.target.value)}
+                    />
+                </div>
+                <div className={styles.form_input}>
+                  <label>Valor a ser cobrado</label>
+                  <input 
+                    required
+                    placeholder="Ex: 200"
+                    value={valueToRequest}
+                    onChange={e=>setValueToRequest(e.target.value)}
+                    />
+                </div>
+                <div className={styles.form_input}>
+                  <label>Telefone</label>
+                  <input 
+                    required
+                    placeholder="(xx) x-xxxx-xxxx"
+                    value={clientsPhone}
+                    onChange={e=>setClientsPhone(e.target.value)}
+                    />
+                </div>
+                <div className={styles.form_input}>
+                  <label>Nome da sua empresa</label>
+                  <input placeholder="Empresa" disabled/>
+                </div>
+                <div className={styles.form_input}>
+                  <label>Mensagem</label>
+                  <textarea 
+                  required
+                  onChange={e=>setMessageToClient(e.target.value)}
+                  value={messageToClient}
+                  ></textarea>
+                </div>
+                <div className={styles.form_footer}>
+                  <button type="submit" className="btn-primary">Enviar Cobrança</button>
+                </div>
+              </form>
             </div>
           </div>
-
-
         </div>
       </div>
     </main>

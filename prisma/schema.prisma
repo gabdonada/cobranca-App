@@ -15,15 +15,18 @@ model User {
   userValidUntil  String
 
   messages        Messages[]
-  contacts        Contact[]
+  // contacts        Contact[]
   dispatchLogs    DispatchLogs[]
   //collections     Collections[]
 }
 
 model Messages {
-  id        String       @id @default(uuid()) @unique
-  userId    String
-  descrip   String
+  id            String       @id @default(uuid()) @unique
+  userId        String
+  descrip       String
+  clientsPhone  String
+  clientsName   String
+  clientsValue  String
 
   user          User          @relation(fields:[userId], references:[id])
   messageLogs   MessageLogs[]
@@ -39,7 +42,7 @@ model DispatchLogs {
 
   user         User         @relation(fields:[userId], references:[id])
   message      Messages     @relation(fields:[messageId], references:[id])
-  contact      Contact      @relation(fields:[contactId], references:[id])
+  // contact      Contact      @relation(fields:[contactId], references:[id])
 }
 
 model MessageLogs {
@@ -51,15 +54,15 @@ model MessageLogs {
   message   Messages     @relation(fields:[messageId], references: [id])
 }
 
-model Contact {
-  id            String       @id @default(uuid()) @unique
-  contactName   String
-  contactNumber Int          @unique
-  userId        String       @unique
+// model Contact {
+//   id            String       @id @default(uuid()) @unique
+//   contactName   String
+//   contactNumber Int          @unique
+//   userId        String       @unique
 
-  user          User         @relation(fields:[userId], references: [id])
-  dispatchLogs  DispatchLogs[]
-}
+//   user          User         @relation(fields:[userId], references: [id])
+//   dispatchLogs  DispatchLogs[]
+// }
 
 //model Collections {
   
